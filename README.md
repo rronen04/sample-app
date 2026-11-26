@@ -1,6 +1,6 @@
 # vulnerable-app
 
-Intentionally vulnerable Node.js app for SCA and container-scanning labs.
+Intentionally vulnerable Node.js app for SCA and container-scanning labs..
 **Do not deploy to production or expose to the internet.**
 
 - Vulnerable dependencies pinned in `package.json` / `package-lock.json`
