@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "vulnerable/**"
+      - "./**"
       - ".github/workflows/vulnerableapp.yml"
   pull_request:
     branches: [main1]
@@ -20,7 +20,7 @@ permissions:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: sample-app
-  BUILD_DIR: vulnerable
+  BUILD_DIR: .
 
 jobs:
   build-and-push:
