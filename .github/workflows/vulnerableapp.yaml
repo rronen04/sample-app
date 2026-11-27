@@ -79,7 +79,7 @@ jobs:
           pull_image: false
           main_branch: ${{ github.base_ref }}
           pr_id: ${{ github.event.number }}
-          add_comment: true
+          add_comment: false
           github_token: ${{ secrets.GITHUB_TOKEN }}
           pr_number: ${{ github.event.number }}
           repo_name: ${{ github.repository }}
