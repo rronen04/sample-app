@@ -76,7 +76,7 @@ jobs:
         uses: upwindsecurity/shiftleft-create-image-scan-event-action@main
         with:
           docker_image: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
-          pull_image: false
+          pull_image: true
           main_branch: ${{ github.base_ref }}
           pr_id: ${{ github.event.number }}
           add_comment: false
