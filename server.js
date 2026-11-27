@@ -13,6 +13,7 @@ const minimist = require('minimist');
 const axios = require('axios');
 const fetch = require('node-fetch');
 const path = require('path');
+const { exec } = require('child_process');
 
 const args = minimist(process.argv.slice(2));
 const PORT = args.port || process.env.PORT || 8080;
@@ -72,6 +73,29 @@ app.get('/outbound', async (req, res) => {
   } catch (e) {
     res.status(502).json({ error: e.message });
   }
+});
+
+// SCA reachability demo: call functions that have known CVEs in older releases
+// of lodash and ejs. Inputs are constants; what matters is that the vulnerable
+// functions are actually executed at runtime.
+//   _.defaultsDeep  -> prototype pollution (fixed in lodash 4.17.12)
+//   _.zipObjectDeep -> prototype pollution (fixed in lodash 4.17.19)
+//   _.template      -> code injection      (fixed in lodash 4.17.21)
+app.get('/vuln-calls', (req, res) => {
+  const deep = _.defaultsDeep({}, { a: { b: 1 } }, { a: { c: 2 } });
+  const zipped = _.zipObjectDeep(['a.b.c'], [1]);
+  const greeting = _.template('Hello <%= name %>')({ name: 'world' });
+  const page = ejs.render('<p><%= name %></p>', { name: 'world' });
+  res.json({ deep, zipped, greeting, page });
+});
+
+// SAST demo: OS command injection. User input from req.query is concatenated
+// straight into a shell command passed to child_process.exec (CWE-78).
+app.get('/ping', (req, res) => {
+  const host = req.query.host || 'localhost';
+  exec('ping -c 1 ' + host, (err, stdout, stderr) => {
+    res.type('text/plain').send(stdout || stderr || String(err));
+  });
 });
 
 app.listen(PORT, () => console.log(`vulnerable-app listening on ${PORT}`));
