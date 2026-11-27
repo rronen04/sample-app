@@ -18,6 +18,8 @@ const { exec } = require('child_process');
 const args = minimist(process.argv.slice(2));
 const PORT = args.port || process.env.PORT || 8080;
 const JWT_SECRET = process.env.JWT_SECRET || 'demo-secret';
+// Hardcoded contact address (sensitive-data / secret detection demo).
+const ADMIN_EMAIL = 'jane.doe@example.com';
 
 const app = express();
 app.use(express.json());
