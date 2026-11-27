@@ -3,9 +3,6 @@ name: Build and push sample-app
 on:
   push:
     branches: [main]
-    paths:
-      - "./**"
-      - ".github/workflows/vulnerableapp.yml"
   pull_request:
     branches: [main1]
     paths:
